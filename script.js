@@ -79,7 +79,6 @@ const GameBoard = (() =>  {
         }
       }
     }
-    console.log(tied ? `tied` : `not tied`);
     return tied;
   }
 
@@ -131,9 +130,19 @@ const GameController = (() => {
   const gameStates = ["Playing", "End"];
   let gameState = "Playing";
 
-  const getGameState = () => gameState;
+  let getGameState = () => gameState;
 
-  const setGameState = (state) => gameState = state;
+  const getGameStateMsg = () => {
+    if(board.determineGameOver()) {
+      return `Game has ended: ${getCurrPlayer().getName()} has won`;
+    } else if (board.determineTie()) {
+      return 'Game is a draw';
+    } else {
+      return `${currPlayer.getName()}'s turn`;
+    }
+  }
+
+  const setGameState = state => gameState = state;
 
   const playRound = (i, j) => {
     if(getGameState() === "Playing") {
@@ -173,12 +182,13 @@ const GameController = (() => {
   const determineGameState = () => {
     if(board.determineGameOver()) {
       setGameState(gameStates[1]);
-      console.log(`game has ended: ${getCurrPlayer().getName()} has won`);
+      console.log(`Game has ended: ${getCurrPlayer().getName()} has won`);
     } else if (board.determineTie()) {
       setGameState(gameStates[1]);
-      console.log('game is a draw')
+      console.log('Game is a draw')
     } else {
-      switchPlayer()
+      switchPlayer();
+      console.log(`${currPlayer.getName()}'s turn`);
     }
   }
 
@@ -206,7 +216,7 @@ const GameController = (() => {
     }
   }
 
-  return {playRound, playRoundBot, getCurrPlayer, resetGame, setPlayer2}
+  return {playRound, playRoundBot, getGameStateMsg, getCurrPlayer, resetGame, setPlayer2}
 })();
 
 
@@ -215,6 +225,7 @@ const DisplayGame = (() => {
   const gameboardHtml = document.querySelector('.gameboard');
   const tiles = Array.from(document.querySelectorAll('.tile'));
   const playerSelection = document.querySelector('#player-select');
+  const gameStateLabel = document.querySelector('.game-state');
 
   tiles.forEach(tile => tile.addEventListener('click', () => selectCell(tile)));
 
@@ -255,6 +266,7 @@ const DisplayGame = (() => {
       GameController.playRoundBot(iPos, jPos);
     }
     renderBoard();
+    updateGameStateLabel();
   }
 
   const switchGameMode = () => {
@@ -265,6 +277,7 @@ const DisplayGame = (() => {
       GameController.setPlayer2("Player2", true);
     }
     resetBoard();
+    updateGameStateLabel();
   }
 
   playerSelection.addEventListener('change', switchGameMode);
@@ -272,10 +285,15 @@ const DisplayGame = (() => {
   const resetBoard = () => {
     GameController.resetGame();
     renderBoard();
+    updateGameStateLabel();
   }
 
   resetButton.addEventListener('click', resetBoard);
 
+  const updateGameStateLabel = () => {
+    let msg = GameController.getGameStateMsg();
+    gameStateLabel.textContent = msg;
+  }
 })();
 
 
