@@ -8,6 +8,37 @@
   <script src="script.js" defer></script>
 </head>
 <body>
-  
+  <div class="header">
+    <h1>Tic Tac Toe</h1>
+  </div>
+  <div class="main-content">
+    <div class="player-selection-container">
+      <select name="player-selection" id="player-select">
+        <option value="player">Player</option>
+        <option value="computer">Computer</option>
+      </select>
+    </div>
+    <div class="game-state">
+      <h2></h2>
+    </div>
+    <div class="board-container">
+      <div class="gameboard">
+        <div class="tile" data-tile="X" data-ipos="0" data-jpos="0"></div>
+        <div class="tile" data-tile="X" data-ipos="0" data-jpos="1"></div>
+        <div class="tile" data-tile="X" data-ipos="0" data-jpos="2"></div>
+        <div class="tile" data-tile="X" data-ipos="1" data-jpos="0"></div>
+        <div class="tile" data-tile="X" data-ipos="1" data-jpos="1"></div>
+        <div class="tile" data-tile="X" data-ipos="1" data-jpos="2"></div>
+        <div class="tile" data-tile="X" data-ipos="2" data-jpos="0"></div>
+        <div class="tile" data-tile="X" data-ipos="2" data-jpos="1"></div>
+        <div class="tile" data-tile="X" data-ipos="2" data-jpos="2"></div>
+      </div>
+      <div class="reset-btn-container">
+        <button id="reset-btn">Reset</button>
+      </div>
+    </div>
+  </div>
+
+
 </body>
 </html>
